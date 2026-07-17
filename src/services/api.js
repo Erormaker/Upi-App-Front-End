@@ -5,7 +5,7 @@ import { getCookie, setCookie, eraseCookie } from '../utils/cookies';
 // Create Centralized Axios Instance
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || (import.meta.env.DEV ? '/api' : 'https://upi-app-pps0.onrender.com/api'),
-  timeout: 10000,
+  timeout: 30000,
   withCredentials: true
 });
 
