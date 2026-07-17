@@ -94,12 +94,17 @@ export const AuthProvider = ({ children }) => {
       if (data) {
         if (typeof data === 'string') {
           msg = data;
+        } else if (data.details && typeof data.details === 'object') {
+          // Spring Boot @Valid field errors come in data.details: { fieldName: "error message" }
+          const fieldErrors = Object.entries(data.details)
+            .map(([field, error]) => `${field}: ${error}`)
+            .join(', ');
+          msg = fieldErrors || data.message || 'Validation failed';
         } else if (data.message) {
           msg = data.message;
         } else if (data.errors && Array.isArray(data.errors)) {
           msg = data.errors.map(e => e.defaultMessage || e.message || e).join(', ');
         } else if (typeof data === 'object') {
-          // Spring Boot validation errors may return {field: "message"} format
           const fieldErrors = Object.values(data).filter(v => typeof v === 'string');
           if (fieldErrors.length > 0) msg = fieldErrors.join(', ');
         }
