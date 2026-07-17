@@ -4,7 +4,7 @@ import { getCookie, setCookie, eraseCookie } from '../utils/cookies';
 
 // Create Centralized Axios Instance
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: import.meta.env.VITE_API_URL || (import.meta.env.DEV ? '/api' : 'http://localhost:8080/api'),
   timeout: 10000,
   withCredentials: true
 });
